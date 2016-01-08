@@ -1,16 +1,14 @@
 <?php
-
 namespace jp\boi\kenshuu\dao;
 
-require_once dirname ( __FILE__ ) . "/Dao.php";
-require_once dirname ( __FILE__ ) . "/../model/member.php";
-require_once dirname ( __FILE__ ) . "/../aspect/Aspect.php";
-require_once dirname ( __FILE__ ) . "/../aspect/InsertInterceptor.php";
-require_once dirname ( __FILE__ ) . "/../aspect/SelectInterceptor.php";
+require_once dirname(__FILE__) . "/Dao.php";
+require_once dirname(__FILE__) . "/../model/members.php";
+require_once dirname(__FILE__) . "/../aspect/Aspect.php";
+require_once dirname(__FILE__) . "/../aspect/InsertInterceptor.php";
+require_once dirname(__FILE__) . "/../aspect/SelectInterceptor.php";
 
-use jp\boi\kenshuu\model\Model_Member;
 use Fuel\Core\Log;
-use Fuel\Core\DB;
+use jp\boi\kenshuu\model\Model_Members;
 use jp\boi\kenshuu\aspect\Aspect;
 use jp\boi\kenshuu\aspect\InsertInterceptor;
 use jp\boi\kenshuu\aspect\SelectInterceptor;
@@ -18,50 +16,88 @@ use jp\boi\kenshuu\aspect\SelectInterceptor;
 class MemberDao implements Dao {
 	
 	private $aspect;
+	
 	public function __construct() {
-		$this->aspect = new Aspect ( $this );
+		$this->aspect = new Aspect($this);
 	}
 	
 	public function runInsertByAspectBefore() {
-		$this->aspect->executePointcut ( 'insert', new InsertInterceptor () );
+		$this->aspect->executePointcut('insert', new InsertInterceptor());
 	}
 	
 	public function runInsertByAspect($args) {
-		return $this->aspect->run ( 'insert', $args );
+		return $this->aspect->run('insert', $args);
 	}
 	
-	public function runSelectByAspectBefore() {
-		$this->aspect->executePointcut ( 'select', new SelectInterceptor () );
+	public function runSelectByAspectBefore(){
+		$this->aspect->executePointcut('select', new SelectInterceptor());
 	}
 	
 	public function runSelectByAspect($args) {
-		return $this->aspect->run ( 'select', $args );
+		return $this->aspect->run('select', $args);
 	}
 	
 	public function insert($member) {
 		try {
-			if (! $member instanceof Model_Member) {
+			
+			if (!$member instanceof Model_Members) {
 				return false;
 			}
 			
-			$sql = "INSERT INTO " . $member->tableName . "(namefull , email , point , making , objectmaking , typemaking , modifying , objectmodifying , typemodifying , removing , objectremoving , typeremoving , removed)" . " VALUE (" . "\"" . $member->getNameFull () . "\"" . " , " . "\"" . $member->getEmail () . "\"" . " , " . $member->getPoint () . " , " . $member->getMaking () . " , " . "\"" . $member->getObjectmaking () . "\"" . " , " . $member->getTypemaking () . " , " . $member->getModifying () . " , " . "\"" . $member->getObjectmodifying () . "\"" . " , " . $member->getTypemodifying () . " , " . $member->getRemoving () . " , " . $member->getObjectremoving () . " , " . $member->getTyperemoving () . " , " . $member->getRemoved () . " );";
+			$modelInstance = Model_Members::forge();
 			
-			$result = DB::query ( $sql )->execute ();
-		} catch ( Exception $error ) {
-			Log::error ( "MemberDao.insert() : ", $error->getMessage () );
+			$insertData = array(
+					'namefull' => $member->namefull ,
+					'email' => $member->email ,
+					'point' => $member->point ,
+					'making' => $member->making ,
+					'objectmaking' => $member->objectmaking ,
+					'typemaking' => $member->typemaking ,
+					'modifying' => $member->modifying , 
+					'objectmodifying' => $member->objectmodifying ,
+					'typemodifying' => $member->typemodifying , 
+					'removing' => $member->removing ,
+					'objectremoving' => $member->objectremoving ,
+					'typeremoving' => $member->typeremoving ,
+					'removed' => $member->removed ,
+			);
+			
+			$modelInstance->set($insertData);
+			
+			if (!$modelInstance->save(false)) {
+				Log::error("保存失敗");
+			} else {
+				Log::error("保存成功");
+			}
+			
+		} catch (Exception $error) {
+			Log::error("MemberDao.insert() : ", $error->getMessage());
 			return false;
 		}
 	}
 	
 	public function select($searchKey) {
 		try {
-			$sql = "SELECT * FROM members WHERE namefull LIKE '%" . $searchKey . "%' OR email LIKE '%" . $searchKey . "%' OR point LIKE '%" . $searchKey . "%'";
 			
-			$result = DB::query ( $sql )->execute ();
+			$modelInstance = Model_Members::forge();
+			
+			$result = Model_Members::find(array(
+					'all' ,
+					'where' => array(
+							array('namefull', 'like', '%' . $searchKey . '%')
+					) ,
+					'or' => array(
+							array('email', 'like', '%' . $searchKey . '%')
+					) ,
+					'or' => array(
+							array('point', 'like', '%' . $searchKey . '%')
+					) ,
+			));
 			
 			return $result;
-		} catch ( Exception $error ) {
-			Log::error ( "MemberDao.selectMemberWithKey() : ", $error->getMessage () );
+			
+		} catch (Exception $error) {
+			Log::error("MemberDao.select() : ", $error->getMessage());
 			return false;
 		}
 	}

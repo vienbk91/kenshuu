@@ -1,7 +1,7 @@
 <?php
 namespace jp\boi\kenshuu\form;
 
-require_once dirname ( __FILE__ ) . "./Form.php";
+require_once dirname(__FILE__) . "./Form.php";
 
 use Fuel\Core\Validation;
 use jp\boi\kenshuu\form\Form;
@@ -13,45 +13,46 @@ class MemberForm implements Form {
 	private $point;
 	private $validation = null;
 	
-	
 	public function excuteAutoBind(array $inputAll) {
-		$this->namefull = trim ( $inputAll ['namefull'] );
-		$this->email = trim ( $inputAll ['email'] );
-		$this->point = trim ( $inputAll ['point'] );
+		
+		$this->namefull = trim($inputAll['namefull']);
+		$this->email = trim($inputAll['email']);
+		$this->point = trim($inputAll['point']);
 	}
 	
 	public function setValiator(Validation $validation) {
 		$this->validation = $validation;
 	}
 	
-	public function getValidator() {
+	public function getValidator(){
 		return $this->validation;
 	}
 	
-	public function toView() {
-		$member = array ();
-		if (empty ( $this->namefull )) {
-			$member ["namefull"] = "";
+	public function toView(){
+		
+		$member = array();
+		if (empty($this->namefull)) {
+			$member["namefull"] = "";
 		} else {
-			$member ["namefull"] = $this->namefull;
+			$member["namefull"] = $this->namefull;
 		}
 		
-		if (empty ( $this->email )) {
-			$member ["email"] = "";
+		if (empty($this->email)) {
+			$member["email"] = "";
 		} else {
-			$member ["email"] = $this->email;
+			$member["email"] = $this->email;
 		}
 		
-		if (empty ( $this->point )) {
-			$member ["point"] = 0;
+		if (empty($this->point)) {
+			$member["point"] = 0;
 		} else {
-			$member ["point"] = $this->point;
+			$member["point"] = $this->point;
 		}
 		
-		if (empty ( $this->validation )) {
-			$member ["validation"] = null;
+		if (empty($this->validation)) {
+			$member["validation"] = null;
 		} else {
-			$member ["validation"] = $this->validation;
+			$member["validation"] = $this->validation;
 		}
 		
 		return $member;

@@ -15,7 +15,7 @@
 	</tr>
 <?php
 	foreach ( $member as $item ) {
-		echo "<tr><td>" . $item ['namefull'] . "</td><td>" . $item ['email'] . "</td><td>" . $item ['point'] . "</td><tr>";
+		echo "<tr><td>" . $item['namefull'] . "</td><td>" . $item['email'] . "</td><td>" . $item['point'] . "</td><tr>";
 	}
 ?>
 </table>
@@ -25,7 +25,7 @@
 }
 ?>
 <br><br>
-<a href="/member/search/">>> Back to Search Page</a>
+<a href="/member/search/">Back to Search Page</a>
 <br><br>
-<a href="/member/">>> Back to Register Page</a>
+<a href="/member/">Back to Register Page</a>
 </html>

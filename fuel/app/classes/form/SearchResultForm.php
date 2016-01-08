@@ -1,7 +1,7 @@
 <?php
 namespace jp\boi\kenshuu\form;
 
-require_once dirname ( __FILE__ ) . "./Form.php";
+require_once dirname (__FILE__) . "./Form.php";
 
 use Fuel\Core\Validation;
 use jp\boi\kenshuu\form\Form;
@@ -12,13 +12,7 @@ class SearchResultForm implements Form {
 	private $validation;
 	
 	public function excuteAutoBind(array $inputAll) {
-		if (! empty ( $inputAll )) {
-			$k = 0;
-			foreach ( $inputAll as $item ) {
-				$this->member [$k] = $item;
-				$k ++;
-			}
-		}
+		$this->member = $inputAll;
 	}
 	
 	public function setValiator(Validation $validation) {
@@ -26,7 +20,8 @@ class SearchResultForm implements Form {
 	}
 	
 	public function toView() {
-		$member ["member"] = $this->member [1];
+		$member["member"] = $this->member;
+		
 		return $member;
 	}
 }

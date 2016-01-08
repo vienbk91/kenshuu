@@ -453,6 +453,7 @@ class Model_Crud extends \Model implements \Iterator, \ArrayAccess, \Serializabl
 				$this->{$key} = $value;
 			}
 		}
+		
 		return $this;
 	}
 	
@@ -470,7 +471,7 @@ class Model_Crud extends \Model implements \Iterator, \ArrayAccess, \Serializabl
 			throw new \Exception ( 'Cannot modify a frozen row.' );
 		}
 		
-		$vars = $this->to_array ();
+		$vars = $this->to_array();
 		
 		// Set default if there are any
 		isset ( static::$_defaults ) and $vars = $vars + static::$_defaults;

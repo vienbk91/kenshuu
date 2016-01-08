@@ -3,7 +3,7 @@ namespace jp\boi\kenshuu\form;
 
 use Fuel\Core\Validation;
 
-require_once dirname ( __FILE__ ) . "./Form.php";
+require_once dirname(__FILE__) . "./Form.php";
 
 class SearchForm implements Form {
 	
@@ -11,30 +11,31 @@ class SearchForm implements Form {
 	private $validation;
 	
 	public function excuteAutoBind(array $inputAll) {
-		$this->searchKey = trim ( $inputAll ["searchkey"] );
+		$this->searchKey = trim($inputAll["searchkey"]);
 	}
 	
 	public function setValiator(Validation $validation) {
 		$this->validation = $validation;
 	}
 	
-	public function getValidation() {
+	public function getValidation(){
 		return $this->validation;
 	}
 	
-	public function toView() {
+	public function toView(){
+		
 		$search = array ();
 		
-		if (empty ( $this->searchKey )) {
-			$search ['searchkey'] = "";
+		if (empty($this->searchKey)) {
+			$search['searchkey'] = "";
 		} else {
-			$search ['searchkey'] = $this->searchKey;
+			$search['searchkey'] = $this->searchKey;
 		}
 		
-		if (empty ( $this->validation )) {
-			$search ["validation"] = null;
+		if (empty($this->validation)) {
+			$search["validation"] = null;
 		} else {
-			$search ["validation"] = $this->validation;
+			$search["validation"] = $this->validation;
 		}
 		
 		return $search;

@@ -8,8 +8,8 @@
 <form action="/member/searchresult" method="post">
 	<b>検索キーワード入力</b>
 	<?php
-	if (! empty ( $validation ) && $validation->error ( 'searchkey' )) {
-		echo "<font color=\"red\" >" . $validation->error ( 'searchkey' ) . "</font>";
+	if (! empty ( $validation ) && $validation->error('searchkey')) {
+		echo "<font color=\"red\" >" . $validation->error('searchkey') . "</font>";
 	}
 	?>
 	<br>
