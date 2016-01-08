@@ -6,5 +6,5 @@ use Fuel\Core\Validation;
 interface Form {
 	public function excuteAutoBind(array $inputAll);
 	public function toView();
-	public function setValiator(Validation $validator);
+	public function setValiator(Validation $validation);
 }

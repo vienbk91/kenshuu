@@ -2,15 +2,28 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Confirm Page</title>
+<link rel="stylesheet" type="text/css" href="../kenshuu/css/kenshuu.css" />
 </head>
 <body>
-<?php 
-	echo "Register Succesfull";
-	echo "<br><br>";
-	echo html_tag('a' , array(
-			'href' => '/member/search'
-	) , 'Search Page');
-?>
+	<h1>会員登録が完成しました。</h1>
+	<table border="0">
+		<tr>
+			<td><b>氏名 : </b></td>
+			<td><?php if (!empty($namefull)) { echo $namefull; } ?></td>
+		</tr>
+		<tr>
+			<td><b>メールアドレス: </b></td>
+			<td><?php if (!empty($email)) { echo $email; }  ?></td>
+		</tr>
+		<tr>
+			<td><b>ポイント: </b></td>
+			<td><?php if (!empty($point)) { echo $point; }  ?></td>
+		</tr>
+	</table>
+	<br>
+	<p>
+		<a href="/member/search/">Go to Member Search Page</a>
+	</p>
 </body>
 </html>

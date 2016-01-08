@@ -1,63 +1,86 @@
 <?php
-require_once dirname(__FILE__) . "/../Dao/MemberDao.php";
-require_once dirname(__FILE__) . "/../model/member.php";
-require_once dirname(__FILE__) . "/../util/Aspect.php";
-require_once dirname(__FILE__) . "/../validator/MemberValidator.php";
+require_once dirname ( __FILE__ ) . "/../Dao/MemberDao.php";
+require_once dirname ( __FILE__ ) . "/../model/member.php";
+require_once dirname ( __FILE__ ) . "/../util/Aspect.php";
+require_once dirname ( __FILE__ ) . "/../validator/MemberValidator.php";
+require_once dirname ( __FILE__ ) . "/../validator/SearchValidator.php";
+require_once dirname ( __FILE__ ) . "/../service/MemberService.php";
+require_once dirname ( __FILE__ ) . "/../form/MemberForm.php";
+require_once dirname ( __FILE__ ) . "/../form/SearchForm.php";
+require_once dirname ( __FILE__ ) . "/../form/SearchResultForm.php";
 
 use Fuel\Core\Controller;
+use Fuel\Core\Input;
 use Fuel\Core\View;
 use jp\boi\kenshuu\dao\MemberDao;
-use jp\boi\kenshuu\model\Model_Member;
 use jp\boi\kenshuu\util\Aspect;
-use Fuel\Core\Log;
 use jp\boi\kenshuu\validator\MemberValidator;
-use Fuel\Core\Response;
 use jp\boi\kenshuu\form\MemberForm;
+use jp\boi\kenshuu\service\MemberService;
+use jp\boi\kenshuu\form\SearchForm;
+use jp\boi\kenshuu\validator\SearchValidator;
+use jp\boi\kenshuu\form\SearchResultForm;
 
 class Controller_Member extends Controller {
 	
 	public function action_index() {
-		$memberForm = new MemberForm();
-		return Aspect::getViewForge(View::forge('member/index' , $memberForm->toView()) , $memberForm);
 		
+		$memberForm = new MemberForm ();
+		return Aspect::getViewForge ( View::forge ( 'member/index', $memberForm->toView () ), $memberForm );
 	}
 	
 	public function action_register() {
-		try {
-			$memberValidator = new MemberValidator();
-			$validate = $memberValidator->validate();
+		
+		$memberForm = new MemberForm ();
+		$memberForm->excuteAutoBind ( Input::all () );
+		
+		$memberValidation = new MemberValidator ();
+		$validation = $memberValidation->validate ();
+		$memberForm->setValiator ( $validation );
+		
+		$memberService = new MemberService ();
+		
+		if ($validation->run ()) {
 			
-			if ($validate->run()) {
-				echo "Khong co loi nao ca";
-				$memberDao = new MemberDao();
-				$member = new Model_Member();
-				
-				$member->setNameFull($_POST['namefull']);
-				$member->setEmail($_POST['email']);
-				$member->setPoint($_POST['point']);
-				$member->setObjectmaking($_POST['namefull']);
-				$member->setObjectmodifying($_POST['namefull']);
-				
-				$member->setRemoving("NULL");
-				$member->setObjectremoving("NULL");
-				$member->setTyperemoving("NULL");
-				
-				$memberDao->runByAspect($member);
-				
-				return Aspect::getViewForge(View::forge('member/register'));
-			} else {
-				Response::redirect('member/');
-			}
-		} catch (Exception $error) {
-			Log::error("Controller.action_register() Error :" , $error->getMessage());
-			return false;
+			$memberService->register ( $memberForm );
+			return Aspect::getViewForge ( View::forge ( 'member/register', $memberForm->toView () ), $memberForm );
+			
+		} else {
+			
+			return Aspect::getViewForge ( View::forge ( 'member/index', $memberForm->toView () ), $memberForm );
+			
 		}
 	}
 	
-	
 	public function action_search() {
-		// 検索機能を実施
+		
+		return Aspect::getViewForge ( View::forge ( 'member/search' ), null );
+		
 	}
 	
-	
+	public function action_searchresult() {
+		
+		$searchForm = new SearchForm ();
+		$searchForm->excuteAutoBind ( Input::all () );
+		
+		$searchValidation = new SearchValidator ();
+		$validation = $searchValidation->validate ();
+		$searchForm->setValiator ( $validation );
+		
+		$memberService = new MemberService ();
+		
+		if ($validation->run ()) { 
+			
+			$result = $memberService->search ( $searchForm );
+			
+			$searchResultForm = new SearchResultForm ();
+			$searchResultForm->excuteAutoBind ( ( array ) $result );
+			return Aspect::getViewForge ( View::forge ( 'member/searchresult', $searchResultForm->toView () ), $searchResultForm );
+			
+		} else {
+			
+			return Aspect::getViewForge ( View::forge ( 'member/search', $searchForm->toView () ), $searchForm );
+			
+		}
+	}
 }
