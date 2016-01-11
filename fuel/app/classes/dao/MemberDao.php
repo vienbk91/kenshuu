@@ -12,6 +12,7 @@ use jp\boi\kenshuu\model\Model_Members;
 use jp\boi\kenshuu\aspect\Aspect;
 use jp\boi\kenshuu\aspect\InsertInterceptor;
 use jp\boi\kenshuu\aspect\SelectInterceptor;
+use Fuel\Core\DB;
 
 class MemberDao implements Dao {
 	
@@ -65,9 +66,9 @@ class MemberDao implements Dao {
 			$modelInstance->set($insertData);
 			
 			if (!$modelInstance->save(false)) {
-				Log::error("保存失敗");
+				Log::error("That bai");
 			} else {
-				Log::error("保存成功");
+				Log::error("Thanh cong");
 			}
 			
 		} catch (Exception $error) {
@@ -80,19 +81,12 @@ class MemberDao implements Dao {
 		try {
 			
 			$modelInstance = Model_Members::forge();
-			
-			$result = Model_Members::find(array(
-					'all' ,
-					'where' => array(
-							array('namefull', 'like', '%' . $searchKey . '%')
-					) ,
-					'or' => array(
-							array('email', 'like', '%' . $searchKey . '%')
-					) ,
-					'or' => array(
-							array('point', 'like', '%' . $searchKey . '%')
-					) ,
-			));
+
+			$result = Model_Members::query()
+			->where('namefull', 'like', '%' . $searchKey . '%')
+			->or_where('email', 'like', '%' . $searchKey . '%')
+			->or_where('point', 'like', '%' . $searchKey . '%')
+			->get();
 			
 			return $result;
 			

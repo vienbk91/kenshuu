@@ -1,12 +1,12 @@
 <?php
 namespace jp\boi\kenshuu\model;
 
-use Fuel\Core\Model_Crud;
+use Orm\Model;
 
-class Model_Members extends Model_Crud {
+class Model_Members extends Model {
 	
 	protected static $_table_name = 'members';
-	protected static $_primary_key = 'seq';
+	protected static $_primary_key = array('seq');
 	
 	public $namefull;
 	public $email;
