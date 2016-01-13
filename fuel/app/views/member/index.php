@@ -41,5 +41,7 @@
 			<input type="submit" name="submit" value="登録">
 		</p>
 	</form>
+	
+	<a href="/member/contact">Go to Contact Page</a>
 </body>
 </html>

@@ -33,9 +33,9 @@ class SearchForm implements Form {
 		}
 		
 		if (empty($this->validation)) {
-			$search["validation"] = null;
+			$search['validation'] = null;
 		} else {
-			$search["validation"] = $this->validation;
+			$search['validation'] = $this->validation;
 		}
 		
 		return $search;

@@ -1,7 +1,7 @@
 <?php
 namespace jp\boi\kenshuu\form;
 
-require_once dirname (__FILE__) . "./Form.php";
+require_once dirname(__FILE__) . "./Form.php";
 
 use Fuel\Core\Validation;
 use jp\boi\kenshuu\form\Form;

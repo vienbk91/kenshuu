@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="../kenshuu/css/kenshuu.css" />
 </head>
 <h1>検索結果</h1>
-<?php  if (!empty($member)) {  ?>
+<?php  if (!empty($member)) { ?>
 <table>
 	<tr>
 		<td><b>氏名</b></td>
@@ -25,7 +25,7 @@
 }
 ?>
 <br><br>
-<a href="/member/search/">Back to Search Page</a>
+<a href="/member/search/"> Back to Search Page</a>
 <br><br>
-<a href="/member/">Back to Register Page</a>
+<a href="/member/"> Back to Register Page</a>
 </html>

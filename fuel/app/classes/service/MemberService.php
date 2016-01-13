@@ -1,7 +1,7 @@
 <?php
 namespace jp\boi\kenshuu\service;
 
-use jp\boi\kenshuu\dao\MemberDao;
+use jp\boi\kenshuu\dao\MembersDao;
 use jp\boi\kenshuu\form\MemberForm;
 use jp\boi\kenshuu\model\Model_Members;
 use jp\boi\kenshuu\form\SearchForm;
@@ -16,7 +16,7 @@ class MemberService {
 		$member->email = $memberForm->getEmail();
 		$member->point = $memberForm->getPoint();
 
-		$memberDao = new MemberDao();
+		$memberDao = new MembersDao();
 		$memberDao->runInsertByAspectBefore();
 		return $memberDao->runInsertByAspect($member);
 	}
@@ -25,9 +25,8 @@ class MemberService {
 		
 		$searchKey = $searchForm->getSearchkey();
 		
-		$memberDao = new MemberDao();
+		$memberDao = new MembersDao();
 		$memberDao->runSelectByAspectBefore();
 		return $memberDao->runSelectByAspect($searchKey);
 	}
-	
 }

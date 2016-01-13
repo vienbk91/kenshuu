@@ -9,24 +9,23 @@ class Aspect {
 	private $object;
 	private $interceptors = array();
 	
-	
 	public function __construct($object) {
-		if (is_null($object) || ! isset($object) || ! is_object($object)) {
+		if (is_null($object) || !isset($object) || !is_object($object)) {
 			throw new Exception('Aspect.__construct() Error !!');
 		}
+		
 		$this->object = $object;
 		$this->clazz = new \ReflectionClass($object);
 	}
 	
 	public function executePointcut($joinPoint, Interceptor $interceptor) {
 		
-		if (! $this->clazz->hasMethod($joinPoint)) {
+		if (!$this->clazz->hasMethod($joinPoint)) {
 			throw new Exception('Aspect.pointcut() Error !!');
 		}
 		
 		$this->interceptors[$joinPoint] = $interceptor;
 	}
-	
 	
 	public function run($joinPoint, $args) {
 		

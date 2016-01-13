@@ -2,11 +2,9 @@
 namespace jp\boi\kenshuu\util;
 
 require_once dirname(__FILE__) . "/../form/Form.php";
-require_once dirname (__FILE__) . "/../form/MemberForm.php";
 
 use Fuel\Core\View;
 use jp\boi\kenshuu\form\Form;
-use jp\boi\kenshuu\form\MemberForm;
 
 class Aspect {
 
@@ -17,6 +15,5 @@ class Aspect {
 		} else {
 			return false;
 		}
-		
 	}
 }
